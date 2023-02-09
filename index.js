@@ -1,37 +1,12 @@
-import http from 'http';
+import express from 'express';
 
-const host = '127.0.0.1';
 const port  = 8000;
+const app = express();
 
-const server = http.createServer((req, res) => {
-
-  switch (req.method) {
-    case 'GET':
-      switch (req.url) {
-        case '/hello':
-          res.statusCode = 200;
-          res.setHeader('Content-Type', 'text/plain');
-          res.end('Hello, world');
-          break;      
-        default:
-          res.statusCode = 404;
-          res.setHeader('Content-Type', 'text/plain');
-          res.end('page not found');
-          break;
-      }
-      
-      break;
-  
-    default:
-      break;
-  }
-
-  
-  
-
-
+app.get('/hello', (req, res) => {
+  res.send('Hello, world');
 });
 
-server.listen(port, host, () => {
-  console.log(`Server has been started on http://${host}:${port}`);
-})
+app.listen(port, () => {
+  console.log(`Server has been started on http://localhost:${port}`);
+});
