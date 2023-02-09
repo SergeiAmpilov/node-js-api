@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import { router as userRouter } from './users/users.js';
 
 const port  = 8000;
@@ -17,7 +17,7 @@ app.get('/hello', (req, res) => {
 app.use('/users', userRouter);
 
 // обработчик ошибки должен добавляться после всех обработчиков use
-app.use((err, req, res, next) => {
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   console.log(err.message);
   res.status(500).end(err.message);
 });
