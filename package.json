@@ -1,0 +1,24 @@
+{
+  "name": "node-js-api",
+  "version": "1.0.0",
+  "description": "API custom framework",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SergeiAmpilov/node-js-api.git"
+  },
+  "keywords": [
+    "API",
+    "node.js"
+  ],
+  "author": "Ampilov Sergei",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SergeiAmpilov/node-js-api/issues"
+  },
+  "homepage": "https://github.com/SergeiAmpilov/node-js-api#readme"
+}
