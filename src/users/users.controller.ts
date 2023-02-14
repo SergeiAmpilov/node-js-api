@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { BaseController } from "../common/base.controller";
 import { IControllerRoute } from "../common/route.interface";
+import { HTTPError } from "../errors/http-error.class";
 import { LoggerService } from "../logger/logger.service";
 
 
@@ -26,7 +27,8 @@ export class UsersController extends BaseController {
   }
   
   login(req: Request, res: Response, next: NextFunction) {
-    this.ok(res, 'login')
+    next(new HTTPError(401, 'No auth user', 'register user post request'));
+    // this.ok(res, 'login')
   }
 
   register(req: Request, res: Response, next: NextFunction) {
