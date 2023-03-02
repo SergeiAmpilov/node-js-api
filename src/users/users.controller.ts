@@ -25,6 +25,7 @@ export class UsersController extends BaseController implements IUserController {
 				path: '/login',
 				method: 'post',
 				func: this.login,
+				// middlewares: [],
 			},
 			{
 				path: '/register',
