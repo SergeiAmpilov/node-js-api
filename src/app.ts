@@ -3,20 +3,20 @@ import { Server } from 'http';
 import { ExeptionFilter } from './errors/exeption.filter';
 import { ILogger } from './logger/logger.interface';
 import { UsersController } from './users/users.controller';
+import { inject, injectable } from "inversify";
+import { TYPES } from './types';
+import 'reflect-metadata';
 
-
+@injectable()
 export class App {
   app: Express;
   port: number;
   server: Server;
-  logger: ILogger;
-  usersController: UsersController;
-  exeptionFilter: ExeptionFilter
 
   constructor(
-    logger: ILogger,
-    usersController: UsersController,
-    exeptionFilter: ExeptionFilter
+    @inject(TYPES.ILogger) private logger: ILogger,
+    @inject(TYPES.UsersController) private usersController: UsersController,
+    @inject(TYPES.ExeptionFilter) private exeptionFilter: ExeptionFilter
     ) {
     this.app = express();
     this.port = process.env.PORT ? Number(process.env.PORT) : 8000;
