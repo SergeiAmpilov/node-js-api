@@ -9,8 +9,9 @@ import 'reflect-metadata';
 import { IUserController } from './users.controller.interface';
 import { UserLoginDto } from './dto/user-login.dto';
 import { UserRegisterDto } from './dto/user-register.dto';
-import { User } from './user.entity';
+// import { User } from './user.entity';
 import { IUserService } from './users.service.interface';
+import { ValidateMiddleware } from '../common/validate.middleware';
 
 @injectable()
 export class UsersController extends BaseController implements IUserController {
@@ -25,12 +26,12 @@ export class UsersController extends BaseController implements IUserController {
 				path: '/login',
 				method: 'post',
 				func: this.login,
-				// middlewares: [],
 			},
 			{
 				path: '/register',
 				method: 'post',
 				func: this.register,
+				middlewares: [new ValidateMiddleware(UserRegisterDto)],
 			},
 		];
 
@@ -39,6 +40,8 @@ export class UsersController extends BaseController implements IUserController {
 
 	login(req: Request<{}, {}, UserLoginDto>, res: Response, next: NextFunction): void {
 		console.log(req.body);
+		
+
 		next(new HTTPError(401, 'No auth user', 'login user'));
 	}
 
