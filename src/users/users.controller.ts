@@ -30,8 +30,8 @@ export class UsersController extends BaseController implements IUserController {
 	}
 
 	login(req: Request, res: Response, next: NextFunction): void {
+		console.log('dds');
 		next(new HTTPError(401, 'No auth user', 'login user'));
-		// this.ok(res, 'login')
 	}
 
 	register(req: Request, res: Response, next: NextFunction): void {
