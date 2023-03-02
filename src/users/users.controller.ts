@@ -27,7 +27,7 @@ export class UsersController extends BaseController {
   }
   
   login(req: Request, res: Response, next: NextFunction) {
-    next(new HTTPError(401, 'No auth user', 'login user post request'));
+    next(new HTTPError(401, 'No auth user', 'login user'));
     // this.ok(res, 'login')
   }
 
