@@ -17,6 +17,7 @@ export class ConfigService implements IConfigService {
     if (result.error) {
       this.logger.error(`Cannot read .env file: ${result.error.message}`);
     } else {
+      this.logger.log('[ConfigService] config from .env uploaded successful');
       this.config = result.parsed as DotenvParseOutput;
     }
 

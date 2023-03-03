@@ -2,6 +2,8 @@ import { Container } from 'inversify';
 import { ContainerModule } from 'inversify/lib/container/container_module';
 import { interfaces } from 'inversify/lib/interfaces/interfaces';
 import { App } from './app';
+import { ConfigService } from './config/config.service';
+import { IConfigService } from './config/config.service.interface';
 import { ExeptionFilter } from './errors/exeption.filter';
 import { IExeptionFilter } from './errors/exeption.filter.interface';
 import { ILogger } from './logger/logger.interface';
@@ -22,6 +24,7 @@ export const appBindings = new ContainerModule((bind: interfaces.Bind) => {
 	bind<IExeptionFilter>(TYPES.ExeptionFilter).to(ExeptionFilter);
 	bind<IUserController>(TYPES.UsersController).to(UsersController);
 	bind<IUserService>(TYPES.UsersService).to(UserService);
+	bind<IConfigService>(TYPES.ConfigService).to(ConfigService);
 	bind<App>(TYPES.Application).to(App);
 });
 
