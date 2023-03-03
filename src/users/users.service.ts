@@ -19,7 +19,6 @@ export class UserService implements IUserService {
 		await newUser.setPassword(password);
 
     // check user exists. if exists - return null. else - create new and return User
-
     return null;
   };
 
