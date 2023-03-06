@@ -44,4 +44,14 @@ export class UserService implements IUserService {
 
   };
 
+  async findUserByEmail( email: string ): Promise<User | null> {
+    const existedUser = await this.usersRepository.find(email);
+
+    if (existedUser) {
+      return new User(existedUser.email, existedUser.name, existedUser.password);
+    }
+
+    return null;
+  }
+
 }

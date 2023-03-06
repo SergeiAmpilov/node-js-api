@@ -24,8 +24,9 @@ export class AuthMiddleware implements IMiddleWare {
           }
         }
       );
+    } else {
+      next();
     }
-    next();
   }
   
 }

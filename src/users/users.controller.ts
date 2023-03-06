@@ -13,6 +13,7 @@ import { IUserService } from './users.service.interface';
 import { ValidateMiddleware } from '../common/validate.middleware';
 import { sign } from 'jsonwebtoken';
 import { IConfigService } from '../config/config.service.interface';
+import { GuardMiddleware } from '../common/guard.middleware';
 
 @injectable()
 export class UsersController extends BaseController implements IUserController {
@@ -40,7 +41,7 @@ export class UsersController extends BaseController implements IUserController {
 				path: '/info',
 				method: 'get',
 				func: this.info,
-				middlewares: [],
+				middlewares: [new GuardMiddleware()],
 			},
 		];
 
@@ -73,7 +74,14 @@ export class UsersController extends BaseController implements IUserController {
 	}
 
 	async info (req: Request, res: Response, next: NextFunction): Promise<void> {
-		this.ok(res, {user: req.user});		
+		//
+		const userFound = await this.userService.findUserByEmail(req.user);
+
+		if (userFound) {
+			this.ok(res, {user: userFound});		
+		} else {
+      res.status(404).send('No user found ?!');
+		}
 	};
 
 
