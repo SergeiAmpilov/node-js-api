@@ -1,4 +1,5 @@
 import { UserModel } from "@prisma/client";
+import { compare } from "bcryptjs";
 import { inject, injectable } from "inversify";
 import { PrismaService } from "../database/prisma.service";
 import { TYPES } from "../types";
@@ -21,6 +22,15 @@ export class UsersRepository implements IUsersRepository {
         name
       }
     });
+  }
+
+  async login(user: UserModel, password: string): Promise<boolean | null> {
+    const foundUser = await this.find(user.email);
+    if (foundUser) {
+      return compare(password, user.password);
+    } else {
+      return null;
+    }    
   }
 
   async find(email: string): Promise<UserModel | null> {

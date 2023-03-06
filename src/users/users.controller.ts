@@ -38,11 +38,21 @@ export class UsersController extends BaseController implements IUserController {
 		this.bindRoutes(routesDate);
 	}
 
-	login(req: Request<{}, {}, UserLoginDto>, res: Response, next: NextFunction): void {
-		console.log(req.body);
+	async login({ body }: Request<{}, {}, UserLoginDto>, res: Response, next: NextFunction): Promise<void> {
+
+		const resLogin = await this.userService.loginUser(body);
+		if (resLogin) {
+			this.loggerService.log('[user service] successful login');
+			this.ok(res, { email: body.email});
+		} else if ( resLogin === null){		
+			return next(new HTTPError(422, 'error while login. No such user'));
+		} else {
+			return next(new HTTPError(422, 'error while login. Incorrect passwd'));
+		}
+		
 		
 
-		next(new HTTPError(401, 'No auth user', 'login user'));
+		// next(new HTTPError(401, 'No auth user', 'login user'));
 	}
 
 	async register(
