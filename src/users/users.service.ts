@@ -32,23 +32,16 @@ export class UserService implements IUserService {
 
   };
 
-  async loginUser({email, password}: UserLoginDto): Promise<boolean | null> {
-
+  async validateUser({ email, password }: UserLoginDto): Promise<boolean> {
     const existedUser = await this.usersRepository.find(email);
-    if (existedUser) {
-      return this.usersRepository.login(existedUser, password);
-    } else {
-      return null;
+
+    if (!existedUser) {
+      return false;
     }
 
-  }
+    const newUser = new User(existedUser.email, existedUser.name, existedUser.password);
+    return newUser.comparePassword(password);
 
-
-
-  
-
-  async validateUser({ }: UserLoginDto): Promise<boolean> {
-    return true;
   };
 
 }

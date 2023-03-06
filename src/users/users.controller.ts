@@ -9,7 +9,6 @@ import 'reflect-metadata';
 import { IUserController } from './users.controller.interface';
 import { UserLoginDto } from './dto/user-login.dto';
 import { UserRegisterDto } from './dto/user-register.dto';
-// import { User } from './user.entity';
 import { IUserService } from './users.service.interface';
 import { ValidateMiddleware } from '../common/validate.middleware';
 
@@ -26,6 +25,7 @@ export class UsersController extends BaseController implements IUserController {
 				path: '/login',
 				method: 'post',
 				func: this.login,
+				middlewares: [new ValidateMiddleware(UserLoginDto)],
 			},
 			{
 				path: '/register',
@@ -39,20 +39,14 @@ export class UsersController extends BaseController implements IUserController {
 	}
 
 	async login({ body }: Request<{}, {}, UserLoginDto>, res: Response, next: NextFunction): Promise<void> {
+		const resLogin = await this.userService.validateUser(body);
 
-		const resLogin = await this.userService.loginUser(body);
-		if (resLogin) {
-			this.loggerService.log('[user service] successful login');
-			this.ok(res, { email: body.email});
-		} else if ( resLogin === null){		
-			return next(new HTTPError(422, 'error while login. No such user'));
-		} else {
-			return next(new HTTPError(422, 'error while login. Incorrect passwd'));
+		if (!resLogin) {
+			return next(new HTTPError(401, 'error while login'));
 		}
-		
-		
 
-		// next(new HTTPError(401, 'No auth user', 'login user'));
+		this.loggerService.log('[user service] successful login');
+		this.ok(res, { email: body.email});
 	}
 
 	async register(
