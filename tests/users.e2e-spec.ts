@@ -62,6 +62,23 @@ describe('Users e2e', () => {
     expect(res.body.email).toBe("b@b.ru");
   });
 
+  it('Info - error', async () => {
+
+    const login = await request(application.app)
+      .post('/users/login')
+      .send({
+        email: "b@b.ru",
+        password: "123456"
+      });
+
+    const res = await request(application.app)
+      .get('/users/info')
+      .set('Authorization', `Bearer 1`);
+
+    expect(res.statusCode).toBe(401);
+  });
+
+
 
 });
 
