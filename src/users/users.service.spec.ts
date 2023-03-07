@@ -38,10 +38,11 @@ beforeAll(
   }
 );
 
+let createdUser: UserModel | null;
+
 describe('User Service', () => {
   
   it('createUser', async () => {
-
     configService.get = jest.fn().mockReturnValueOnce('1');
     usersRepository.create = jest.fn().mockImplementationOnce( (user: User): UserModel => ({
       name: user.name,
@@ -50,14 +51,24 @@ describe('User Service', () => {
       id: 1
     }));
 
-    const createdUser = await usersService.createUser({
+    createdUser = await usersService.createUser({
       email: 'a@a.ru',
       name: 'Sergei',
       password: '1',
     });
 
     expect(createdUser?.id).toEqual(1);
-    expect(createdUser?.password).toEqual('1');
+    expect(createdUser?.password).not.toEqual('1');
+  });
+
+  it('validateUser - success', async () => {
+    usersRepository.find = jest.fn().mockRejectedValueOnce(createdUser);
+    const res = await usersService.validateUser({
+      email: 'a@a.ru',
+      password: '1',
+    });
+    
+    expect(res).toBeFalsy();
   });
 
 });
