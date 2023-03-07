@@ -57,4 +57,8 @@ export class App {
 			);
 		});
 	}
+
+	public close(): void {
+		this.server.close();
+	}
 }
