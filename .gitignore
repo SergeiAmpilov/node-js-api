@@ -5,3 +5,5 @@ test.ts
 .env
 /prisma/dev.db
 /prisma/dev.db-journal
+/tests/coverage
+/coverage
